@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import get_current_user
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.models.menu import Product, OrderItem
 from app.models.order import Order, OrderStatus
 from app.schemas.order import OrderCreate, OrderResponse, OrderStatusUpdate
@@ -21,9 +21,9 @@ def calculate_delivery(distance_km: float) -> float:
 
 @router.get("/", response_model=List[OrderResponse])
 def get_orders(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    if current_user.role == "admin":
+    if current_user.role == UserRole.ADMIN:
         orders = db.query(Order).all()
-    elif current_user.role == "courier":
+    elif current_user.role == UserRole.COURIER:
         orders = db.query(Order).filter(Order.courier_id == current_user.id).all()
     else:
         orders = db.query(Order).filter(Order.client_id == current_user.id).all()
@@ -37,7 +37,7 @@ def get_order(order_id: int, current_user: User = Depends(get_current_user), db:
         raise HTTPException(status_code=404, detail="Order not found")
     
     # Проверка доступа
-    if current_user.role == "client" and order.client_id != current_user.id:
+    if current_user.role == UserRole.CLIENT and order.client_id != current_user.id:
         raise HTTPException(status_code=403, detail="Access denied")
     
     return order
@@ -102,7 +102,7 @@ def update_order_status(order_id: int, status_data: OrderStatusUpdate, current_u
         raise HTTPException(status_code=404, detail="Order not found")
     
     # Проверка прав
-    if current_user.role not in ["admin", "courier"]:
+    if current_user.role not in [UserRole.ADMIN, UserRole.COURIER]:
         raise HTTPException(status_code=403, detail="Access denied")
     
     # Обновление статуса
@@ -111,7 +111,7 @@ def update_order_status(order_id: int, status_data: OrderStatusUpdate, current_u
     if status_data.status == "delivered":
         order.delivered_at = datetime.utcnow()
     
-    if status_data.status == "delivering" and current_user.role == "courier":
+    if status_data.status == "delivering" and current_user.role == UserRole.COURIER:
         order.courier_id = current_user.id
     
     db.commit()
@@ -120,7 +120,7 @@ def update_order_status(order_id: int, status_data: OrderStatusUpdate, current_u
 
 @router.put("/{order_id}/assign-courier")
 def assign_courier(order_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    if current_user.role != "admin":
+    if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
     order = db.query(Order).filter(Order.id == order_id).first()

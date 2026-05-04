@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import get_current_user
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.models.menu import Product, CategoryType
 from app.schemas.product import ProductCreate, ProductResponse
 
@@ -28,7 +28,7 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=ProductResponse)
 def create_product(product_data: ProductCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    if current_user.role != "admin":
+    if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
     product = Product(**product_data.model_dump())
@@ -40,7 +40,7 @@ def create_product(product_data: ProductCreate, current_user: User = Depends(get
 
 @router.put("/{product_id}", response_model=ProductResponse)
 def update_product(product_id: int, product_data: ProductCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    if current_user.role != "admin":
+    if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
     product = db.query(Product).filter(Product.id == product_id).first()
@@ -57,7 +57,7 @@ def update_product(product_id: int, product_data: ProductCreate, current_user: U
 
 @router.delete("/{product_id}")
 def delete_product(product_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    if current_user.role != "admin":
+    if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
     product = db.query(Product).filter(Product.id == product_id).first()
