@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/app/context/CartContext';
 import { Order } from '@/app/types';
+import { DeliveryStatus } from '@/app/components';
 
 const statusLabels: Record<Order['status'], string> = {
   pending: 'Ожидает',
@@ -75,6 +76,8 @@ export default function OrderPage() {
       </Link>
 
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Заказ #{order.id.slice(-6)}</h1>
+
+      <DeliveryStatus order={order} />
 
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
