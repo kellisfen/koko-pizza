@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/CartContext';
-import { Order } from '@/app/types';
+import { Order, Topping } from '@/app/types';
 import { pizzaSizes } from '@/app/data/sizes';
 
 const PROMO_CODES: Record<string, number> = {
@@ -129,9 +129,22 @@ export default function CartPage() {
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 {sizeName && (
-                  <span className="text-xs text-[#FF6B35] bg-[#FF6B35]/10 px-2 py-0.5 rounded">
+                  <span className="text-xs text-[#FF6B35] bg-[#FF6B35]/10 px-2 py-0.5 rounded mr-1">
                     {sizeName}
                   </span>
+                )}
+                {item.toppings && item.toppings.length > 0 && (
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {item.toppings.map((tp: Topping) => (
+                      <span
+                        key={tp.id}
+                        className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded"
+                      >
+                        {tp.name}
+                        {tp.price > 0 && <span className="text-[#FF6B35]"> +{tp.price}₽</span>}
+                      </span>
+                    ))}
+                  </div>
                 )}
                 <p className="text-[#FF6B35] font-medium">{item.price} ₽</p>
               </div>

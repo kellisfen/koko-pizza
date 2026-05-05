@@ -1,11 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { CartItem, MenuItem, Order } from '@/app/types';
+import { CartItem, MenuItem, Order, Topping } from '@/app/types';
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (item: MenuItem) => void;
+  addToCart: (item: MenuItem, toppings?: Topping[]) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -29,15 +29,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
 
-  const addToCart = (item: MenuItem) => {
+  const addToCart = (item: MenuItem, toppings?: Topping[]) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
+      // If same item + same toppings exists, increment quantity
+      const existing = prev.find((i) => {
+        if (i.id !== item.id) return false;
+        if (!toppings && !i.toppings) return true;
+        if (!toppings || !i.toppings) return false;
+        if (toppings.length !== i.toppings.length) return false;
+        const tpIds = toppings.map((t) => t.id).sort();
+        const iTpIds = i.toppings!.map((t) => t.id).sort();
+        return tpIds.every((id, idx) => id === iTpIds[idx]);
+      });
       if (existing) {
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === existing.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      return [...prev, { ...item, quantity: 1 }];
+      return [...prev, { ...item, quantity: 1, toppings }];
     });
   };
 

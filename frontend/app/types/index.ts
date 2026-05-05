@@ -1,3 +1,11 @@
+export interface Topping {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  group: string;
+}
+
 export type Category =
   | 'pizza'
   | 'roman'
@@ -30,6 +38,7 @@ export interface MenuItem {
 
 export interface CartItem extends MenuItem {
   quantity: number;
+  toppings?: Topping[];
 }
 
 export interface Order {
