@@ -6,6 +6,13 @@ import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/CartContext';
 import { Order } from '@/app/types';
+import { pizzaSizes } from '@/app/data/sizes';
+
+const PROMO_CODES: Record<string, number> = {
+  'FIRST15': 15,   // 15% скидка
+  'DODO100': 100,  // 100 ₽ скидка
+  'KOKO2026': 10,  // 10% скидка
+};
 
 export default function CartPage() {
   const { items, updateQuantity, removeFromCart, clearCart, total } = useCart();
@@ -15,6 +22,9 @@ export default function CartPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [promoInput, setPromoInput] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
+  const [promoError, setPromoError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +35,28 @@ export default function CartPage() {
       setLoginPassword('');
     }
   };
+
+  const applyPromo = () => {
+    const code = promoInput.trim().toUpperCase();
+    if (PROMO_CODES[code]) {
+      setAppliedPromo(code);
+      setPromoError('');
+      setPromoInput('');
+    } else {
+      setPromoError('Неверный промокод');
+    }
+  };
+
+  const removePromo = () => {
+    setAppliedPromo(null);
+  };
+
+  // Calculate discount
+  const discount = appliedPromo ? (appliedPromo === 'FIRST15' || appliedPromo === 'KOKO2026')
+    ? Math.round(total * PROMO_CODES[appliedPromo] / 100)
+    : PROMO_CODES[appliedPromo]
+    : 0;
+  const finalTotal = Math.max(0, total - discount);
 
   const handleCheckout = () => {
     if (!token) {
@@ -40,7 +72,7 @@ export default function CartPage() {
     const order: Order = {
       id: 'order-' + Date.now(),
       items: [...items],
-      total,
+      total: finalTotal,
       address,
       status: 'pending',
       createdAt: new Date().toISOString(),
@@ -50,6 +82,15 @@ export default function CartPage() {
     addOrder(order);
     clearCart();
     router.push(`/order/${order.id}`);
+  };
+
+  const getItemSize = (itemId: string): string | null => {
+    // Check if this item id matches a size variant id
+    for (const [, sizes] of Object.entries(pizzaSizes)) {
+      const found = sizes.find(s => s.id === itemId);
+      if (found) return found.sizeName;
+    }
+    return null;
   };
 
   if (items.length === 0) {
@@ -73,50 +114,102 @@ export default function CartPage() {
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Корзина</h1>
 
       <div className="space-y-4 mb-6">
-        {items.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg shadow p-4 flex items-center gap-4">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-20 h-20 object-cover rounded-lg"
-              onError={(e) => {
-                e.currentTarget.src = `https://via.placeholder.com/80x80/e5e5e5/999999?text=${encodeURIComponent(item.name)}`;
-              }}
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-800">{item.name}</h3>
-              <p className="text-[#FF6B35] font-medium">{item.price} ₽</p>
+        {items.map((item) => {
+          const sizeName = getItemSize(item.id);
+          return (
+            <div key={item.id} className="bg-white rounded-lg shadow p-4 flex items-center gap-4">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-20 h-20 object-cover rounded-lg"
+                onError={(e) => {
+                  e.currentTarget.src = `https://via.placeholder.com/80x80/e5e5e5/999999?text=${encodeURIComponent(item.name)}`;
+                }}
+              />
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                {sizeName && (
+                  <span className="text-xs text-[#FF6B35] bg-[#FF6B35]/10 px-2 py-0.5 rounded">
+                    {sizeName}
+                  </span>
+                )}
+                <p className="text-[#FF6B35] font-medium">{item.price} ₽</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                >
+                  -
+                </button>
+                <span className="w-8 text-center font-medium">{item.quantity}</span>
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                >
+                  +
+                </button>
+              </div>
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="text-red-500 hover:text-red-700 text-sm"
+              >
+                Удалить
+              </button>
             </div>
+          );
+        })}
+      </div>
+
+      {/* Promo code */}
+      <div className="bg-white rounded-lg shadow p-4 mb-4">
+        {appliedPromo ? (
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
-              >
-                -
-              </button>
-              <span className="w-8 text-center font-medium">{item.quantity}</span>
-              <button
-                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
-              >
-                +
-              </button>
+              <span className="text-green-500 text-lg">✓</span>
+              <span className="font-medium text-green-700">Промокод: {appliedPromo}</span>
+              <span className="text-green-600">−{discount} ₽</span>
             </div>
-            <button
-              onClick={() => removeFromCart(item.id)}
-              className="text-red-500 hover:text-red-700 text-sm"
-            >
-              Удалить
+            <button onClick={removePromo} className="text-gray-400 hover:text-red-500 text-sm">
+              ✕
             </button>
           </div>
-        ))}
+        ) : (
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={promoInput}
+              onChange={(e) => { setPromoInput(e.target.value); setPromoError(''); }}
+              placeholder="Введите промокод"
+              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
+            />
+            <button
+              onClick={applyPromo}
+              className="bg-[#FF6B35] text-white px-5 py-2 rounded-lg hover:bg-[#e55a2b] transition font-medium"
+            >
+              Применить
+            </button>
+          </div>
+        )}
+        {promoError && <p className="text-red-500 text-sm mt-1">{promoError}</p>}
       </div>
 
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="flex justify-between items-center mb-4">
           <span className="text-lg font-medium text-gray-600">Итого:</span>
-          <span className="text-2xl font-bold text-[#FF6B35]">{total} ₽</span>
+          <div className="text-right">
+            {discount > 0 && (
+              <span className="text-gray-400 line-through text-sm mr-2">{total} ₽</span>
+            )}
+            <span className="text-2xl font-bold text-[#FF6B35]">{finalTotal} ₽</span>
+          </div>
         </div>
+
+        {discount > 0 && (
+          <div className="text-right text-green-600 text-sm mb-2">
+            Скидка: −{discount} ₽
+          </div>
+        )}
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
