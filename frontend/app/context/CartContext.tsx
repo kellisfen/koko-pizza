@@ -11,23 +11,35 @@ interface CartContextType {
   clearCart: () => void;
   total: number;
   itemCount: number;
+  address: string;
+  setAddress: (address: string) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [address, setAddressState] = useState<string>('');
 
   useEffect(() => {
     const saved = localStorage.getItem('cart');
     if (saved) {
       setItems(JSON.parse(saved));
     }
+    const savedAddress = localStorage.getItem('delivery_address');
+    if (savedAddress) {
+      setAddressState(savedAddress);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
+
+  const setAddress = (addr: string) => {
+    setAddressState(addr);
+    localStorage.setItem('delivery_address', addr);
+  };
 
   const addToCart = (item: MenuItem, toppings?: Topping[]) => {
     setItems((prev) => {
@@ -73,7 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, total, itemCount }}
+      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, total, itemCount, address, setAddress }}
     >
       {children}
     </CartContext.Provider>

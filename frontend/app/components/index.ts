@@ -7,3 +7,6 @@ export { HalfPizzaSelector } from './HalfPizzaSelector';
 export { KidsSection } from './KidsSection';
 export { default as Footer } from './Footer';
 export { DeliveryStatus } from './DeliveryStatus';
+export { default as VeganSection } from './VeganSection';
+export { default as RecommendSection } from './RecommendSection';
+export { default as AddressSelector } from './AddressSelector';
