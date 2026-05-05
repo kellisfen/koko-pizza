@@ -2,56 +2,24 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { menuItems } from '@/app/data/menu';
 import { HalfPizzaSelector } from './HalfPizzaSelector';
-
-interface KidsItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-}
-
-const kidsItems: KidsItem[] = [
-  {
-    id: '000d3a240c71be9a11e719be2a90ee5d',
-    name: 'Сырная',
-    price: 279,
-    image: 'https://cdn.dodostatic.net/image/Ingredients/0198bf40e2987242886716627224c196',
-    description: 'Классическая пицца с моцареллой',
-  },
-  {
-    id: '11eb85cab6450fe05435ca8f0b336e20',
-    name: 'Двойной цыпленок',
-    price: 339,
-    image: 'https://cdn.dodostatic.net/image/Ingredients/0198bf3e424371b49f0b8d7dbe320a70',
-    description: 'Больше нежного цыпленка',
-  },
-  {
-    id: '000d3a2155a180e811e7ae576df861c4',
-    name: 'Куриные кусочки',
-    price: 265,
-    image: 'https://cdn.dodostatic.net/image/Ingredients/01980e87a1187122bb94b6d6a3a876c5',
-    description: 'Сочные кусочки куриного филе',
-  },
-  {
-    id: '000d3a38c306a94511e908d7080ef034',
-    name: 'Картофель из печи',
-    price: 149,
-    image: 'https://cdn.dodostatic.net/image/Ingredients/019bd3d8e05c7916b49a779e4d430294',
-    description: 'Запечённая картошечка с пряными специями',
-  },
-  {
-    id: '11efac82a8127dff263ca67251a8fd11',
-    name: 'Хашбрауны 2 шт',
-    price: 119,
-    image: 'https://cdn.dodostatic.net/image/Ingredients/01981875ae8e75239a409d63775530d8',
-    description: 'Картофельные оладушки из печи',
-  },
-];
+import { SizeSelector } from './SizeSelector';
 
 export function KidsSection() {
   const [showHalfPizza, setShowHalfPizza] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<typeof menuItems[0] | null>(null);
+
+  // Kids items from menu — filter by known IDs
+  const kidsIds = [
+    '000d3a240c71be9a11e719be2a90ee5d', // Сырная
+    '11eb85cab6450fe05435ca8f0b336e20', // Двойной цыпленок
+    '000d3a2155a180e811e7ae576df861c4', // Куриные кусочки
+    '000d3a38c306a94511e908d7080ef034', // Картофель из печи
+    '11efac82a8127dff263ca67251a8fd11', // Хашбрауны 2 шт
+  ];
+
+  const kidsItems = menuItems.filter(item => kidsIds.includes(item.id));
 
   return (
     <section className="mt-8">
@@ -66,6 +34,7 @@ export function KidsSection() {
           <div
             key={item.id}
             className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition cursor-pointer"
+            onClick={() => setSelectedItem(item)}
           >
             <div className="aspect-square bg-gray-100 relative">
               <img
@@ -82,7 +51,7 @@ export function KidsSection() {
             </div>
             <div className="p-3">
               <h3 className="font-semibold text-gray-800 text-sm leading-tight mb-1">{item.name}</h3>
-              <p className="text-[#FF6B35] font-bold">{item.price} ₽</p>
+              <p className="text-[#FF6B35] font-bold">от {item.price} ₽</p>
             </div>
           </div>
         ))}
@@ -100,6 +69,9 @@ export function KidsSection() {
       </div>
 
       {showHalfPizza && <HalfPizzaSelector onClose={() => setShowHalfPizza(false)} />}
+      {selectedItem && (
+        <SizeSelector item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
     </section>
   );
 }
