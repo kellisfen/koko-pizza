@@ -1,5 +1,7 @@
 'use client';
 
+import { Phone, Clock, Star, MapPin } from 'lucide-react';
+
 interface StoreInfo {
   phone: string;
   email: string;
@@ -34,7 +36,7 @@ export function InfoBar() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {/* Phone */}
         <div className="flex items-start gap-2">
-          <span className="text-xl">📞</span>
+          <Phone className="w-5 h-5 text-[#FF6B35] mt-0.5 shrink-0" />
           <div>
             <div className="text-xs text-gray-400 uppercase tracking-wide">Телефон</div>
             <a href="tel:88003020060" className="text-[#FF6B35] font-semibold hover:underline text-sm">
@@ -46,7 +48,7 @@ export function InfoBar() {
 
         {/* Delivery time */}
         <div className="flex items-start gap-2">
-          <span className="text-xl">⏱️</span>
+          <Clock className="w-5 h-5 text-[#FF6B35] mt-0.5 shrink-0" />
           <div>
             <div className="text-xs text-gray-400 uppercase tracking-wide">Доставка</div>
             <div className="font-semibold text-gray-800 text-sm">{storeInfo.deliveryTime}</div>
@@ -56,7 +58,7 @@ export function InfoBar() {
 
         {/* Work hours */}
         <div className="flex items-start gap-2">
-          <span className="text-xl">🕐</span>
+          <Clock className="w-5 h-5 text-[#FF6B35] mt-0.5 shrink-0" />
           <div>
             <div className="text-xs text-gray-400 uppercase tracking-wide">Режим работы</div>
             <div className="text-xs text-gray-700 font-medium">Пн-Пт: {storeInfo.workHours.weekdays}</div>
@@ -66,7 +68,7 @@ export function InfoBar() {
 
         {/* Rating */}
         <div className="flex items-start gap-2">
-          <span className="text-xl">⭐</span>
+          <Star className="w-5 h-5 text-[#FF6B35] mt-0.5 shrink-0" />
           <div>
             <div className="text-xs text-gray-400 uppercase tracking-wide">Рейтинг</div>
             <div className="font-semibold text-gray-800 text-sm">{storeInfo.rating}</div>
@@ -77,7 +79,7 @@ export function InfoBar() {
 
       {/* Address bar */}
       <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-2">
-        <span className="text-base">📍</span>
+        <MapPin className="w-4 h-4 text-[#FF6B35] shrink-0" />
         <span className="text-sm text-gray-600">{storeInfo.address}</span>
       </div>
     </div>
