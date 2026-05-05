@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { MenuItemCard } from '@/app/components';
+import { MenuItemCard, BannerCarousel } from '@/app/components';
 import { menuItems, categories } from '@/app/data/menu';
+import { banners } from '@/app/data/banners';
 import { Category } from '@/app/types';
 
 export default function HomePage() {
@@ -18,7 +19,10 @@ export default function HomePage() {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Добро пожаловать в Коко Пицца!
         </h1>
-        
+
+        {/* Banner Carousel */}
+        <BannerCarousel banners={banners} />
+
         {/* Categories */}
         <div className="flex flex-wrap justify-center gap-3 mb-8">
           <button

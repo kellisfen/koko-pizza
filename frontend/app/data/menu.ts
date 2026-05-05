@@ -2,6 +2,25 @@
 // Source: https://dodopizza.ru/api/v5/menu
 // Scraped via Playwright, 220 real items
 
+export interface Category {
+  id: string;
+  name: string;
+  count?: number;
+}
+
+export const categories: Category[] = [
+  { id: 'pizza', name: "🍕 Пиццы", count: 56 },
+  { id: 'roman', name: "🟫 Римские пиццы", count: 7 },
+  { id: 'combo', name: "📦 Комбо", count: 18 },
+  { id: 'snacks', name: "🍗 Закуски", count: 29 },
+  { id: 'coffee', name: "☕ Кофе", count: 10 },
+  { id: 'drinks', name: "🥤 Напитки", count: 36 },
+  { id: 'cocktails', name: "🥛 Коктейли", count: 14 },
+  { id: 'breakfasts', name: "🍳 Завтраки", count: 24 },
+  { id: 'desserts', name: "🍰 Десерты", count: 19 },
+  { id: 'sauces', name: "🧂 Соусы", count: 7 },
+];
+
 export interface MenuItem {
   id: string;
   name: string;
