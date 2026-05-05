@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MenuItemCard, BannerCarousel, InfoBar, HalfPizzaSelector } from '@/app/components';
+import { MenuItemCard, BannerCarousel, InfoBar, HalfPizzaSelector, KidsSection } from '@/app/components';
 import { menuItems, categories } from '@/app/data/menu';
 import { banners } from '@/app/data/banners';
 import { Category } from '@/app/types';
@@ -43,6 +43,9 @@ export default function HomePage() {
             <div className="text-3xl">→</div>
           </div>
         </div>
+
+        {/* Kids Section */}
+        <KidsSection />
 
         {/* Categories */}
         <div className="flex flex-wrap justify-center gap-3 mb-8">

@@ -4,5 +4,6 @@ export { default as BannerCarousel } from './BannerCarousel';
 export { InfoBar } from './InfoBar';
 export { SizeSelector } from './SizeSelector';
 export { HalfPizzaSelector } from './HalfPizzaSelector';
+export { KidsSection } from './KidsSection';
 export { default as Footer } from './Footer';
 export { DeliveryStatus } from './DeliveryStatus';
