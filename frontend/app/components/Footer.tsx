@@ -1,3 +1,5 @@
+import { Pizza, Clock, Check } from 'lucide-react';
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 mt-12">
@@ -6,7 +8,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">🍕</span>
+              <Pizza size={20} className="text-[#FF6B35]" />
               <span className="text-xl font-bold text-white">Коко Пицца</span>
             </div>
             <p className="text-sm text-gray-400">
@@ -48,11 +50,11 @@ export default function Footer() {
               </div>
               <div className="mt-3 pt-3 border-t border-gray-700">
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-[#FF6B35]">⏱</span>
+                  <Clock size={14} className="text-[#FF6B35]" />
                   <span>Доставка от 30 минут</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm mt-1">
-                  <span className="text-green-400">✓</span>
+                  <Check size={14} className="text-green-400" />
                   <span>Бесплатно</span>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { MapPin } from 'lucide-react';
 
 interface AddressSelectorProps {
   onSelect: (address: string, coords?: { lat: number; lng: number }) => void;
@@ -40,7 +41,7 @@ export default function AddressSelector({ onSelect, onClose }: AddressSelectorPr
               onClick={() => onSelect(preset.address, { lat: preset.lat, lng: preset.lng })}
               className="w-full flex items-start gap-3 p-3 bg-gray-50 rounded-xl hover:bg-orange-50 border border-gray-100 hover:border-[#FF6B35] transition-all text-left"
             >
-              <span className="text-xl mt-0.5">📍</span>
+              <MapPin size={16} className="text-[#FF6B35] mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium text-gray-800 text-sm">{preset.name}</p>
                 <p className="text-xs text-gray-500">{preset.address}</p>

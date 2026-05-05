@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { MenuItem } from '@/app/types';
+import { Droplets } from 'lucide-react';
 
 interface RecommendSectionProps {
   sauces: MenuItem[];
@@ -15,7 +16,7 @@ export default function RecommendSection({ sauces, onAddSauce }: RecommendSectio
     <section className="mb-8">
       <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl p-4 border border-orange-100">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-xl">🧂</span>
+          <Droplets size={20} className="text-[#FF6B35]" />
           <h2 className="text-lg font-bold text-gray-800">Рекомендуем к пицце</h2>
         </div>
 
@@ -26,8 +27,8 @@ export default function RecommendSection({ sauces, onAddSauce }: RecommendSectio
               onClick={() => onAddSauce(sauce)}
               className="flex-shrink-0 flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2 hover:border-[#FF6B35] hover:shadow-sm transition-all text-left min-w-[140px]"
             >
-              <div className="w-8 h-8 relative bg-orange-50 rounded-md flex items-center justify-center text-lg flex-shrink-0">
-                🧂
+              <div className="w-8 h-8 relative bg-orange-50 rounded-md flex items-center justify-center flex-shrink-0">
+                <Droplets size={16} className="text-[#FF6B35]" />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium text-gray-800 truncate">{sauce.name}</p>

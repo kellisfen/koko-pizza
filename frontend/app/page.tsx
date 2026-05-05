@@ -5,6 +5,20 @@ import { MenuItemCard, BannerCarousel, InfoBar, HalfPizzaSelector, KidsSection, 
 import { menuItems, categories } from '@/app/data/menu';
 import { banners } from '@/app/data/banners';
 import { Category, MenuItem } from '@/app/types';
+import { Pizza, Cookie, Package, Drumstick, Coffee, CupSoda, Milk, Egg, Cake, FlaskConical } from 'lucide-react';
+
+const categoryIcons: Record<string, React.ReactNode> = {
+  pizza: <Pizza size={16} />,
+  roman: <Cookie size={16} />,
+  combo: <Package size={16} />,
+  snacks: <Drumstick size={16} />,
+  coffee: <Coffee size={16} />,
+  drinks: <CupSoda size={16} />,
+  cocktails: <Milk size={16} />,
+  breakfasts: <Egg size={16} />,
+  desserts: <Cake size={16} />,
+  sauces: <FlaskConical size={16} />,
+};
 import { useCart } from '@/app/context/CartContext';
 
 export default function HomePage() {
@@ -59,7 +73,9 @@ export default function HomePage() {
           className="mx-auto max-w-3xl mt-6 bg-gradient-to-r from-[#FF6B35] to-[#ff8c5a] rounded-2xl p-6 text-white cursor-pointer hover:from-[#e55a2b] hover:to-[#e57540] transition shadow-lg"
         >
           <div className="flex items-center gap-4">
-            <div className="text-5xl">🍕</div>
+            <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center">
+                <Pizza size={32} className="text-white" />
+              </div>
             <div className="flex-1">
               <h2 className="text-xl font-bold mb-1">Пицца из половинок</h2>
               <p className="text-white/80 text-sm">
@@ -118,13 +134,14 @@ export default function HomePage() {
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id as Category)}
-              className={`px-5 py-2 rounded-full font-medium transition ${
+              className={`px-4 py-2 rounded-full font-medium transition flex items-center gap-1.5 ${
                 selectedCategory === cat.id
                   ? 'bg-[#FF6B35] text-white'
                   : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
               }`}
             >
-              {cat.name}
+              {categoryIcons[cat.id]}
+              <span>{cat.name}</span>
             </button>
           ))}
         </div>

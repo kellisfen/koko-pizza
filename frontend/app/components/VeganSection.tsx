@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { MenuItem } from '@/app/types';
+import { Leaf, Pizza } from 'lucide-react';
 
 interface VeganSectionProps {
   items: MenuItem[];
@@ -14,7 +15,7 @@ export default function VeganSection({ items, onItemClick }: VeganSectionProps) 
   return (
     <section className="mb-8">
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-2xl">🌿</span>
+        <Leaf size={24} className="text-green-600" />
         <h2 className="text-2xl font-bold text-gray-800">Вегетарианское</h2>
         <span className="text-sm text-gray-500 ml-auto">без мяса</span>
       </div>
@@ -36,8 +37,8 @@ export default function VeganSection({ items, onItemClick }: VeganSectionProps) 
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-gray-400 text-4xl">
-                  🍕
+                <div className="flex items-center justify-center h-full text-gray-400">
+                  <Pizza size={32} />
                 </div>
               )}
               {item.is_new && (

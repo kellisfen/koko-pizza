@@ -7,6 +7,7 @@ import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/CartContext';
 import { Order, Topping } from '@/app/types';
 import { pizzaSizes } from '@/app/data/sizes';
+import { ShoppingCart, Check, X } from 'lucide-react';
 
 const PROMO_CODES: Record<string, number> = {
   'FIRST15': 15,   // 15% скидка
@@ -96,7 +97,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="text-center py-16">
-        <span className="text-6xl mb-4 block">🛒</span>
+        <ShoppingCart size={48} className="text-gray-300 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Корзина пуста</h1>
         <p className="text-gray-500 mb-6">Добавьте что-нибудь вкусное!</p>
         <Link
@@ -179,12 +180,12 @@ export default function CartPage() {
         {appliedPromo ? (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-green-500 text-lg">✓</span>
+              <Check size={18} className="text-green-500" />
               <span className="font-medium text-green-700">Промокод: {appliedPromo}</span>
               <span className="text-green-600">−{discount} ₽</span>
             </div>
-            <button onClick={removePromo} className="text-gray-400 hover:text-red-500 text-sm">
-              ✕
+            <button onClick={removePromo} className="text-gray-400 hover:text-red-500">
+              <X size={16} />
             </button>
           </div>
         ) : (

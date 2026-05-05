@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { halfPizzas } from '@/app/data/halves';
 import { MenuItem } from '@/app/types';
+import { Pizza, X } from 'lucide-react';
 
 interface HalfPizzaSelectorProps {
   onClose: () => void;
@@ -49,7 +50,7 @@ export function HalfPizzaSelector({ onClose }: HalfPizzaSelectorProps) {
         {/* Header */}
         <div className="relative h-32 bg-gradient-to-br from-[#FF6B35] to-[#ff8c5a] flex items-center justify-center flex-shrink-0">
           <div className="text-center">
-            <div className="text-4xl mb-1">🍕</div>
+            <Pizza size={32} className="text-white mb-2" />
             <h2 className="text-white text-xl font-bold">Пицца из половинок</h2>
             <p className="text-white/80 text-sm">Выберите 2 любые пиццы на одну большую</p>
           </div>
@@ -57,7 +58,7 @@ export function HalfPizzaSelector({ onClose }: HalfPizzaSelectorProps) {
             onClick={onClose}
             className="absolute top-3 right-3 w-8 h-8 bg-white/20 text-white rounded-full flex items-center justify-center hover:bg-white/30 transition"
           >
-            ✕
+            <X size={16} className="text-white" />
           </button>
         </div>
 

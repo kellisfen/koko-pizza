@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/CartContext';
 import { Order } from '@/app/types';
-import { DeliveryStatus } from '@/app/components';
+import { DeliveryStatus } from '@/app/components/DeliveryStatus';
+import { Package, PartyPopper } from 'lucide-react';
 
 const statusLabels: Record<Order['status'], string> = {
   pending: 'Ожидает',
@@ -54,7 +56,7 @@ export default function OrderPage() {
   if (!order) {
     return (
       <div className="text-center py-16">
-        <span className="text-6xl mb-4 block">📦</span>
+        <Package size={48} className="text-gray-300 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Заказ не найден</h1>
         <Link
           href="/"
@@ -102,7 +104,7 @@ export default function OrderPage() {
 
         {order.status === 'delivered' && (
           <div className="bg-green-100 rounded-lg p-4 text-center mb-4">
-            <p className="text-green-800 font-medium">Заказ доставлен! 🎉</p>
+            <p className="text-green-800 font-medium"><PartyPopper size={20} className="inline mr-1" />Заказ доставлен!</p>
           </div>
         )}
 

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/CartContext';
 import { useState } from 'react';
+import { Pizza } from 'lucide-react';
 
 export default function Header() {
   const { itemCount } = useCart();
@@ -28,7 +29,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-3xl">🍕</span>
+              <Pizza size={28} className="text-[#FF6B35]" />
               <span className="text-2xl font-bold text-[#FF6B35]">Коко Пицца</span>
             </Link>
 

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { menuItems } from '@/app/data/menu';
 import { HalfPizzaSelector } from './HalfPizzaSelector';
 import { SizeSelector } from './SizeSelector';
+import { Pizza, Baby } from 'lucide-react';
 
 export function KidsSection() {
   const [showHalfPizza, setShowHalfPizza] = useState(false);
@@ -24,7 +25,7 @@ export function KidsSection() {
   return (
     <section className="mt-8">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-800">👶 Любят дети</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Любят дети</h2>
         <Link href="/?category=for_kids" className="text-[#FF6B35] text-sm font-medium hover:underline">
           Все →
         </Link>
@@ -45,8 +46,8 @@ export function KidsSection() {
                   e.currentTarget.src = `https://via.placeholder.com/300x300/e5e5e5/999999?text=${encodeURIComponent(item.name)}`;
                 }}
               />
-              <div className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
-                👶
+              <div className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+                <Baby size={10} />
               </div>
             </div>
             <div className="p-3">
@@ -61,7 +62,7 @@ export function KidsSection() {
           onClick={() => setShowHalfPizza(true)}
           className="bg-gradient-to-br from-[#FF6B35] to-[#ff8c5a] rounded-xl shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition flex flex-col items-center justify-center p-4 text-white min-h-[200px]"
         >
-          <div className="text-4xl mb-2">🍕</div>
+          <Pizza size={32} className="text-white mb-2" />
           <h3 className="font-bold text-center text-sm mb-1">Пицца из половинок</h3>
           <p className="text-white/80 text-xs text-center">2 пиццы на одной</p>
           <p className="text-white/90 text-xs mt-2 font-medium">от 730 ₽</p>

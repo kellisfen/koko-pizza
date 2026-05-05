@@ -1,16 +1,17 @@
 'use client';
 
 import { Order } from '@/app/types';
+import { ClipboardList, ChefHat, Bike, CheckCircle } from 'lucide-react';
 
 interface DeliveryStatusProps {
   order: Order;
 }
 
 const steps = [
-  { key: 'pending', label: 'Заказ\nпринят', icon: '📋' },
-  { key: 'preparing', label: 'Готовится', icon: '👨‍🍳' },
-  { key: 'in_delivery', label: 'В пути', icon: '🛵' },
-  { key: 'delivered', label: 'Доставлен', icon: '✅' },
+  { key: 'pending', label: 'Заказ\nпринят', Icon: ClipboardList },
+  { key: 'preparing', label: 'Готовится', Icon: ChefHat },
+  { key: 'in_delivery', label: 'В пути', Icon: Bike },
+  { key: 'delivered', label: 'Доставлен', Icon: CheckCircle },
 ];
 
 const statusOrder: Order['status'][] = ['pending', 'preparing', 'in_delivery', 'delivered'];
@@ -43,7 +44,7 @@ export function DeliveryStatus({ order }: DeliveryStatusProps) {
                     : 'bg-gray-200 text-gray-400'
                 } ${isCurrent ? 'ring-4 ring-[#FF6B35]/20 scale-110' : ''}`}
               >
-                {step.icon}
+                <step.Icon size={18} />
               </div>
               <span
                 className={`text-xs mt-2 text-center whitespace-pre-line ${
