@@ -1,12 +1,12 @@
-export type Category = 
-  | 'pizza' 
-  | 'roman' 
-  | 'combo' 
-  | 'snacks' 
-  | 'coffee' 
-  | 'drinks' 
-  | 'cocktails' 
-  | 'breakfast' 
+export type Category =
+  | 'pizza'
+  | 'roman'
+  | 'combo'
+  | 'snacks'
+  | 'coffee'
+  | 'drinks'
+  | 'cocktails'
+  | 'breakfasts'
   | 'desserts'
   | 'sauces';
 
