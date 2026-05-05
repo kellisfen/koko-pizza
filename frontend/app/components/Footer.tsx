@@ -65,7 +65,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-500">
           <p>© 2026 Коко Пицца. Все права защищены.</p>
-          <p>Аналог Dodo Pizza для образовательных целей</p>
+          <p>Аналог Коко Пицца для образовательных целей</p>
         </div>
       </div>
     </footer>

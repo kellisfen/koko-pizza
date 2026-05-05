@@ -18,7 +18,7 @@ interface StoreInfo {
 
 const storeInfo: StoreInfo = {
   phone: '8 800 302-00-60',
-  email: 'feedback@dodopizza.ru',
+  email: 'feedback@koko.pizza',
   deliveryTime: 'от 30 минут',
   deliveryCost: 'бесплатно',
   address: 'г. Владивосток, ул. Космонавтов, 1/2',
