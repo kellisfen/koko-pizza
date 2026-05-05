@@ -10,12 +10,18 @@ export type Category =
   | 'desserts'
   | 'sauces';
 
+export interface CategoryInfo {
+  id: Category;
+  name: string;
+  count?: number;
+}
+
 export interface MenuItem {
   id: string;
   name: string;
   price: number;
   category: Category;
-  image: string;
+  image?: string;
   description: string;
   is_new?: boolean;
   is_popular?: boolean;

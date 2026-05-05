@@ -2,13 +2,9 @@
 // Source: https://dodopizza.ru/api/v5/menu
 // Scraped via Playwright, 220 real items
 
-export interface Category {
-  id: string;
-  name: string;
-  count?: number;
-}
+import { CategoryInfo, MenuItem } from '@/app/types';
 
-export const categories: Category[] = [
+export const categories: CategoryInfo[] = [
   { id: 'pizza', name: "🍕 Пиццы", count: 56 },
   { id: 'roman', name: "🟫 Римские пиццы", count: 7 },
   { id: 'combo', name: "📦 Комбо", count: 18 },
@@ -21,17 +17,6 @@ export const categories: Category[] = [
   { id: 'sauces', name: "🧂 Соусы", count: 7 },
 ];
 
-export interface MenuItem {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  category: string;
-  image?: string;
-  is_new?: boolean;
-  is_popular?: boolean;
-  for_kids?: boolean;
-}
 
 export const menuItems: MenuItem[] = [
   { id: '11efe58fb23c83719464c2d50bcb94b0', name: "Шашлык и сацебели", price: 675, description: "Новинка с шашлыком — прямиком с южных курортов. Сочная свиная шейка, соус сацебели с остринкой, перец, томаты, лук и фирменный томатный соус", category: 'pizza', image: "https://cdn.dodostatic.net/image/Ingredients/019d6dc74be970f5ad871f1f7b7feedc"},

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MenuItemCard, BannerCarousel } from '@/app/components';
+import { MenuItemCard, BannerCarousel, InfoBar } from '@/app/components';
 import { menuItems, categories } from '@/app/data/menu';
 import { banners } from '@/app/data/banners';
 import { Category } from '@/app/types';
@@ -19,6 +19,9 @@ export default function HomePage() {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Добро пожаловать в Коко Пицца!
         </h1>
+
+        {/* Store Info Bar */}
+        <InfoBar />
 
         {/* Banner Carousel */}
         <BannerCarousel banners={banners} />
