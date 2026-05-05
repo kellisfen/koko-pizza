@@ -6,6 +6,12 @@ export interface Topping {
   group: string;
 }
 
+export interface HalfPizza {
+  id: string;
+  name: string;
+  price: number;
+}
+
 export type Category =
   | 'pizza'
   | 'roman'
