@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider, AuthProvider } from "./context/CartContext";
-import { Header } from "./components";
+import { Header, Footer } from "./components";
 
 export const metadata: Metadata = {
   title: "Коко Пицца - Доставка пиццы",
@@ -22,6 +22,7 @@ export default function RootLayout({
             <main className="max-w-7xl mx-auto px-4 py-6">
               {children}
             </main>
+            <Footer />
           </CartProvider>
         </AuthProvider>
       </body>
